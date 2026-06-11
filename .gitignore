@@ -3,6 +3,9 @@ __pycache__/
 *.pyc
 .DS_Store
 .env
+
+# ML Pipeline Specific Exclusions
 data/
 artifacts/
+logs/          <-- Add this line right here
 *.egg-info/

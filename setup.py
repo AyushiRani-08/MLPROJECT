@@ -1,3 +1,9 @@
+#your root folder isn't recognized as a package-without this
+
+#This single command reads your setup.py, bundles your core code, installs the required dependencies, and sets up your application perfectly in one clean shot.
+
+
+
 from setuptools import find_packages, setup
 
 setup(
