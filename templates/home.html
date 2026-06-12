@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Analytics Dashboard</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .navbar {
+            background: #1e293b;
+            padding: 15px 30px;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .hero {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            color: white;
+            padding: 60px 30px;
+            text-align: center;
+        }
+        .hero h1 {
+            margin: 0;
+            font-size: 36px;
+            font-weight: 600;
+        }
+        .hero p {
+            margin: 15px 0 0 0;
+            font-size: 18px;
+            color: #cbd5e1;
+        }
+        .main-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        }
+        .card h3 {
+            margin-top: 0;
+            color: #0f172a;
+            font-size: 20px;
+        }
+        .card p {
+            color: #64748b;
+            line-height: 1.6;
+            font-size: 15px;
+        }
+        .btn {
+            display: inline-block;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 15px;
+            margin-top: 15px;
+            transition: background 0.2s;
+        }
+        .btn:hover {
+            background: #1d4ed8;
+        }
+        .status-badge {
+            display: inline-block;
+            background: #dcfce7;
+            color: #15803d;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        🎓 Student Performance Portal
+    </div>
+
+    <div class="hero">
+        <h1>Predictive Academic Performance Engine</h1>
+        <p>An end-to-end ML pipeline benchmarking hyperparameter-tuned regressor models for exam metrics.</p>
+    </div>
+
+    <div class="main-container">
+        <div class="grid">
+            
+            <div class="card">
+                <span class="status-badge">Active API Endpoint</span>
+                <h3>Math Score Predictor</h3>
+                <p>Input student demographic variables, preparation details, reading, and writing metrics to generate an inference on the expected final math score using our optimized machine learning model asset.</p>
+                <a href="/predictdata" class="btn">Launch Predictor</a>
+            </div>
+
+            <div class="card">
+                <span class="status-badge">System Status: Online</span>
+                <h3>Modular Project Structure</h3>
+                <p>Explore the complete codebase layout, from automated data ingestion splits to specialized transformation pipelines, logging file outputs, and custom line-tracing trace error exceptions.</p>
+                <a href="https://github.com/AyushiRani-08/MLPROJECT" target="_blank" class="btn" style="background: #475569;">View Repository Source</a>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
