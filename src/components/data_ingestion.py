@@ -7,6 +7,8 @@ from src.logger import logging
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
+from src.components.data_transformation import DataTransformation
+
 @dataclass
 class DataIngestionConfig:
     """Defines the paths where the ingestion artifacts will be saved."""
@@ -54,6 +56,28 @@ class DataIngestion:
         
 
 if __name__ == "__main__":
-    obj = DataIngestion()
-    train_data, test_data = obj.initiate_data_ingestion()
-    print(f"Ingestion complete. Train path: {train_data}, Test path: {test_data}")
+    try:
+        # Step 1: Run Ingestion
+        ingestion = DataIngestion()
+        train_path, test_path = ingestion.initiate_data_ingestion()
+        print(f"✅ Ingestion Complete!\n   Train Path: {train_path}\n   Test Path: {test_path}\n")
+        
+        # Step 2: Run Data Transformation Only
+        from src.components.data_transformation import DataTransformation
+        
+        data_transformation = DataTransformation()
+        train_arr, test_arr, preprocessor_path = data_transformation.initiate_data_transformation(
+            train_path=train_path, 
+            test_path=test_path
+        )
+        print(f"✅ Transformation Complete!\n   Preprocessor saved at: {preprocessor_path}")
+        print(f"   Train Matrix Shape (Rows, Features): {train_arr.shape}")
+        print(f"   Test Matrix Shape (Rows, Features): {test_arr.shape}")
+        
+        # Quick visual validation of the processed array
+        print("\nFirst row of processed training matrix:")
+        print(train_arr[0])
+
+    except Exception as e:
+        print(f"❌ Transformation Check Failed!")
+        print(e)

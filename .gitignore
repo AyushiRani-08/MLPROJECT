@@ -7,5 +7,5 @@ __pycache__/
 # ML Pipeline Specific Exclusions
 data/
 artifacts/
-logs/          <-- Add this line right here
+logs/          
 *.egg-info/

@@ -1,0 +1,4 @@
+[ 2026-06-12 01:48:23,448 ] 24 root - INFO - Entered the data ingestion component
+[ 2026-06-12 01:48:23,451 ] 28 root - INFO - Successfully read the dataset into a pandas DataFrame
+[ 2026-06-12 01:48:23,455 ] 37 root - INFO - Train-test split initiated
+[ 2026-06-12 01:48:23,471 ] 44 root - INFO - Ingestion of data and partitioning is completed successfully
