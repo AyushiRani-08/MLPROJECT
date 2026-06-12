@@ -1,36 +1,45 @@
-# End-to-End Machine Learning Pipeline Project
+# End-to-End Student Performance Prediction Pipeline
 
-A production-ready, modular Machine Learning project implementing clean software engineering principles. This repository handles the complete lifecycle of an ML model—from data ingestion and preprocessing to model training, evaluation, and deployment via a REST API.
-
----
-
-## 🚀 Project Overview & Core Features
-* **Modular Pipeline Architecture:** Separates data ingestion, transformation, and model training components into isolated, reusable blocks.
-* **Custom Logging & Exception Framework:** Detailed tracking of script executions and precise error line tracing.
-* **Reusable Artifacts Pipeline:** Serializes and manages preprocessors (`scaler.pkl`) and trained model configurations (`model.pkl`) cleanly.
-* **Production Deployment:** Built-in web server endpoint to serve real-time predictions.
+A production-ready, modular Machine Learning project implementing clean software engineering principles. This repository builds a complete predictive pipeline—from data ingestion and custom preprocessing to hyperparameter-tuned multi-model benchmarking—to predict student **math scores** based on demographic and academic performance metrics.
 
 ---
 
-## 📁 Repository Structure
+## 🚀 Key Features
+* **Modular Codebase:** Clean separation of concerns between data ingestion, transformation pipeline configs, and model training components.
+* **13-Model Benchmarking Suite:** Automated optimization across Linear Models, Tree Ensembles, and advanced boosting frameworks (`XGBoost`, `LightGBM`).
+* **Automated Hyperparameter Tuning:** Integrates robust, parallelized `RandomizedSearchCV` tuning with custom fallback safeguards for baseline models.
+* **Custom Logging & Exception Framework:** Detailed tracking of training checkpoints and error line tracing.
+* **Production Deployment Ready:** A Flask-based interactive web interface that reads real-time user inputs and streams immediate model inferences using local preprocessor and model artifacts.
+
+---
+
+## 📁 Project Directory Layout
 
 ```text
-├── artifacts/               # Serialized models and preprocessing objects (.pkl files)
-├── data/                    # Local storage for data partitions
-│   ├── raw/                 # Unprocessed source datasets
-│   └── processed/           # Train/test splits after ingestion
-├── notebooks/               # Jupyter notebooks for exploratory data analysis (EDA)
-├── src/                     # Core source code package
-│   ├── components/          # Pipeline data processing blocks
-│   │   ├── data_ingestion.py
-│   │   ├── data_transformation.py
-│   │   └── model_trainer.py
-│   ├── pipeline/            # Execution layer orchestrating components
+├── artifacts/               # Serialized data split boundaries and pickle binaries
+│   ├── raw.csv              # Initial source dataset record
+│   ├── train.csv            # Splitted training data partition
+│   ├── test.csv             # Splitted validation data partition
+│   ├── preprocessor.pkl    # Serialized feature processing pipeline object
+│   └── model.pkl           # The absolute highest-scoring trained model binary
+├── data/                    # Source data storage location
+├── notebooks/               # Jupyter notebooks for Exploratory Data Analysis (EDA)
+├── src/                     # Core backend source package directory
+│   ├── components/          # Modular processing segments
+│   │   ├── __init__.py
+│   │   ├── data_ingestion.py      # Partitions dataset boundaries
+│   │   ├── data_transformation.py # Handles scaling, imputation, and encoding
+│   │   └── model_trainer.py       # Benchmarks, tunes, and serializes models
+│   ├── pipeline/            # Execution layer orchestrating application blocks
+│   │   ├── __init__.py
 │   │   ├── training_pipeline.py
-│   │   └── prediction_pipeline.py
-│   ├── logger.py            # Automated checkpoint tracking
-│   ├── exception.py         # Custom traceback error handling
-│   └── utils.py             # Shared utility functions (e.g., saving/loading objects)
-├── app.py                   # REST API production deployment script
+│   │   └── prediction_pipeline.py # Maps frontend payloads for inference
+│   ├── logger.py            # Automated milestone tracking configuration
+│   ├── exception.py         # Custom tracer error handler with line numbers
+│   └── utils.py             # Reusable shared utilities (save_object, load_object)
+├── templates/               # Frontend template layout views
+│   ├── home.html            # Core project portal landing dashboard
+│   └── index.html           # Interactive calculator input form view
+├── app.py                   # Flask server endpoint router
 ├── requirements.txt         # Project package dependencies
-└── setup.py                 # Script to package 'src' as a local editable module
+└── setup.py                 # Installs 'src' directory as a local package module
