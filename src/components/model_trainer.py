@@ -52,6 +52,48 @@ class ModelTrainer:
                 "XGBRegressor": XGBRegressor(),
                 "AdaBoost Regressor": AdaBoostRegressor(),
             }
+            param_grids = {
+                # --- Linear Models ---
+                "Linear Regression": {}, # No hyperparameters to tune
+
+                
+                # --- Tree & Distance-Based Models ---
+                "Decision Tree": {
+                    'criterion': ['squared_error', 'absolute_error'],
+                    'max_depth': [3, 5, 10, None],
+                    'min_samples_split': [2, 5, 10],
+                    'min_samples_leaf': [1, 2, 4]
+                },
+                # --- Ensemble Models ---
+                "Random Forest": {
+                    'n_estimators': [50, 100, 200, 300],
+                    'max_depth': [5, 10, 20, None],
+                    'min_samples_split': [2, 5, 10],
+                    'min_samples_leaf': [1, 2, 4]
+                },
+
+                "Gradient Boosting": {
+                    'n_estimators': [50, 100, 200, 300],
+                    'learning_rate': [0.001, 0.01, 0.05, 0.1, 0.2],
+                    'subsample': [0.6, 0.7, 0.8, 0.9, 1.0],
+                    'max_depth': [3, 5, 8]
+                },
+                "AdaBoost Regressor": {
+                    'n_estimators': [50, 100, 150, 200],
+                    'learning_rate': [0.001, 0.01, 0.05, 0.1, 1.0],
+                    'loss': ['linear', 'square', 'exponential']
+                },
+                
+                # --- Advanced Boosting Frameworks ---
+                "XGBRegressor": {
+                    'n_estimators': [50, 100, 200, 300],
+                    'learning_rate': [0.01, 0.05, 0.1, 0.2],
+                    'max_depth': [3, 5, 7, 10],
+                    'subsample': [0.6, 0.8, 1.0],
+                    'colsample_bytree': [0.6, 0.8, 1.0]
+                },
+
+            }
 
             logging.info("Initiating model evaluation loop across algorithm dictionary.")
             
@@ -59,7 +101,7 @@ class ModelTrainer:
             model_report: dict = evaluate_models(
                 X_train=X_train, y_train=y_train, 
                 X_test=X_test, y_test=y_test, 
-                models=models
+                models=models,param_grids=param_grids
             )
             
             # Find the highest R2 score from the returned evaluation dictionary
