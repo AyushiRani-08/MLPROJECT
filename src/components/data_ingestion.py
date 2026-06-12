@@ -8,6 +8,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 
 from src.components.data_transformation import DataTransformation
+from src.components.model_trainer import ModelTrainer
 
 @dataclass
 class DataIngestionConfig:
@@ -54,7 +55,6 @@ class DataIngestion:
         except Exception as e:
             raise CustomException(e, sys)
         
-
 if __name__ == "__main__":
     try:
         # Step 1: Run Ingestion
@@ -62,7 +62,8 @@ if __name__ == "__main__":
         train_path, test_path = ingestion.initiate_data_ingestion()
         print(f"✅ Ingestion Complete!\n   Train Path: {train_path}\n   Test Path: {test_path}\n")
         
-        # Step 2: Run Data Transformation Only
+        # Step 2: Run Data Transformation
+        # Importing locally inside the block avoids circular import dependencies
         from src.components.data_transformation import DataTransformation
         
         data_transformation = DataTransformation()
@@ -71,13 +72,19 @@ if __name__ == "__main__":
             test_path=test_path
         )
         print(f"✅ Transformation Complete!\n   Preprocessor saved at: {preprocessor_path}")
-        print(f"   Train Matrix Shape (Rows, Features): {train_arr.shape}")
-        print(f"   Test Matrix Shape (Rows, Features): {test_arr.shape}")
+        print(f"   Train Matrix Shape: {train_arr.shape}")
+        print(f"   Test Matrix Shape: {test_arr.shape}\n")
         
-        # Quick visual validation of the processed array
-        print("\nFirst row of processed training matrix:")
-        print(train_arr[0])
+        # Step 3: Run Model Training
+        from src.components.model_trainer import ModelTrainer
+        
+        model_trainer = ModelTrainer()
+        performance_score = model_trainer.initiate_model_trainer(
+            train_array=train_arr, 
+            test_array=test_arr
+        )
+        print(f"✅ Model Training Complete!\n   Best Model Performance ($R^2$ Score): {performance_score}\n")
 
     except Exception as e:
-        print(f"❌ Transformation Check Failed!")
+        print(f"❌ Pipeline Check Failed!")
         print(e)

@@ -1,0 +1,90 @@
+import os
+import sys
+from dataclasses import dataclass
+
+from sklearn.ensemble import (
+    AdaBoostRegressor,
+    GradientBoostingRegressor,
+    RandomForestRegressor,
+)
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score
+from sklearn.tree import DecisionTreeRegressor
+from xgboost import XGBRegressor
+
+from src.exception import CustomException
+from src.logger import logging
+from src.utils import save_object, evaluate_models
+
+@dataclass
+class ModelTrainerConfig:
+    """Defines the path where the final trained model binary will be saved."""
+    trained_model_file_path: str = os.path.join("artifacts", "model.pkl")
+
+class ModelTrainer:
+    def __init__(self):
+        self.model_trainer_config = ModelTrainerConfig()
+
+    def initiate_model_trainer(self, train_array, test_array):
+        """
+        Splits arrays into features/targets, trains multiple algorithms,
+        evaluates performance, and serializes the top-performing model.
+        """
+        try:
+            logging.info("Splitting training and test input data matrices.")
+            
+            # Since the target column was appended to the end in data_transformation.py:
+            # [:, :-1] selects all columns except the last one (Features)
+            # [:, -1] selects only the last column (Target)
+            X_train, y_train, X_test, y_test = (
+                train_array[:, :-1],
+                train_array[:, -1],
+                test_array[:, :-1],
+                test_array[:, -1]
+            )
+
+            # Dictionary of algorithms to benchmark
+            models = {
+                "Decision Tree": DecisionTreeRegressor(),
+                "Random Forest": RandomForestRegressor(),
+                "Gradient Boosting": GradientBoostingRegressor(),
+                "Linear Regression": LinearRegression(),
+                "XGBRegressor": XGBRegressor(),
+                "AdaBoost Regressor": AdaBoostRegressor(),
+            }
+
+            logging.info("Initiating model evaluation loop across algorithm dictionary.")
+            
+            # evaluate_models is a helper function from src.utils that handles the fitting and scoring
+            model_report: dict = evaluate_models(
+                X_train=X_train, y_train=y_train, 
+                X_test=X_test, y_test=y_test, 
+                models=models
+            )
+            
+            # Find the highest R2 score from the returned evaluation dictionary
+            best_model_score = max(sorted(model_report.values()))
+
+            # Extract the name of the highest scoring model
+            best_model_name = list(model_report.keys())[
+                list(model_report.values()).index(best_model_score)
+            ]
+            best_model = models[best_model_name]
+
+            # Quality Guardrail: Reject training if the best model performance is too low
+            if best_model_score < 0.6:
+                raise CustomException("No suitable model configuration found with an R2 score above 0.6", sys)
+            
+            logging.info(f"Optimal model isolated: {best_model_name} with R2 Score: {best_model_score}")
+
+            # Serialize and save the winning model to the artifacts directory
+            save_object(
+                file_path=self.model_trainer_config.trained_model_file_path,
+                obj=best_model
+            )
+
+            # Return the final evaluation metric score
+            return best_model_score
+
+        except Exception as e:
+            raise CustomException(e, sys)
