@@ -3,6 +3,6 @@ numpy
 scikit-learn
 seaborn
 flask
-xgboost
+xgboost[cpu]
 #-e . 
 #it installs your own project directory (src/) as a local Python package inside your virtual environment.
