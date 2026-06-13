@@ -4,5 +4,5 @@ scikit-learn
 seaborn
 flask
 xgboost==2.1.4
-#-e . 
+-e . 
 #it installs your own project directory (src/) as a local Python package inside your virtual environment.

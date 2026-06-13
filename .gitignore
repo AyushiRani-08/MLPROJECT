@@ -6,6 +6,5 @@ __pycache__/
 
 # ML Pipeline Specific Exclusions
 data/
-artifacts/
 logs/          
 *.egg-info/
